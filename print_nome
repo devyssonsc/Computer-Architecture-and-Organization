@@ -1,0 +1,35 @@
+.data
+	nome: .space 10
+	msg: .asciiz "! Olá."
+	pergunta_nome: .asciiz "Nome: "
+	
+.text
+	li $v0, 4
+	la $a0, pergunta_nome
+	syscall
+
+	li $v0, 8
+	la $a0, nome
+	la $a1, 10
+	syscall
+	
+	print_text:
+        lb $t0, 0($a0)  # Carregar o próximo caractere da string
+
+        # Verificar se o caractere é nulo
+        beq $t0, $zero, end_print_text
+
+        # Imprimir o caractere
+        syscall
+
+        # Próximo caractere
+        addi $a0, $a0, 1
+
+        # Repetir o loop
+        j print_text
+
+    end_print_text:
+
+    # Terminar o programa
+    li $v0, 10
+    syscall

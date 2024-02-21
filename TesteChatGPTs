@@ -1,0 +1,20 @@
+.data
+msg:    .asciiz "+"
+espaco:		.asciiz "+"
+
+.text
+main:
+    # Inicializar registradores
+    li $v0, 4           # Código da syscall para imprimir string
+    la $a0, msg         # Carregar o endereço da string
+    li $a1, 60          # Número de caracteres a serem impressos
+
+print_loop:
+    syscall
+    addi $a1, $a1, -1    # Decrementar o contador
+
+    bnez $a1, print_loop # Repetir até que todos os caracteres sejam impressos
+
+    # Terminar o programa
+    li $v0, 10          # Código da syscall para sair do programa
+    syscall
